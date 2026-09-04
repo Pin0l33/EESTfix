@@ -1,0 +1,55 @@
+# Dependencias
+node_modules/
+
+# Variables de entorno
+.env
+.env.*
+!.env.example
+
+# Configuración de IDE
+.vscode/
+.idea/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Archivos temporales
+*.tmp
+*.temp
+~*
+
+# Archivos de compilación
+dist/
+build/
+
+# Cachés
+.cache/
+.parcel-cache/
+
+# PHP
+vendor/
+
+# XAMPP / archivos locales
+xampp/
+htdocs/
+
+# Base de datos local
+*.sqlite
+*.sqlite3
+
+# Archivos de configuración local
+config.local.php
+
+# Backups
+*.bak
+*.backup
+
+# Archivos subidos por usuarios
+uploads/*
+!uploads/.gitkeep
