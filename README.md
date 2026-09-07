@@ -178,5 +178,6 @@ Este proyecto se encuentra bajo la licencia MIT.
 Consultar el archivo "LICENSE" para más información.
 
  Autores
+Del Pino Lucas, Mattia Federico, Orue Maximo, Ferrari Ulises, De Armas Leonel
 
 Proyecto desarrollado para la E.E.S.T. N.º 1 "Eduardo Ader".
