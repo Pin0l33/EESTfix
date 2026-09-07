@@ -1,12 +1,16 @@
+# =========================
+# EESTfix - Git Ignore
+# =========================
+
 # Dependencias
 node_modules/
 
-# Variables de entorno
+# Variables de entorno y configuraciones privadas
 .env
 .env.*
 !.env.example
 
-# Configuración de IDE
+# Configuraciones de IDE
 .vscode/
 .idea/
 
@@ -24,26 +28,21 @@ logs/
 *.temp
 ~*
 
-# Archivos de compilación
-dist/
-build/
-
-# Cachés
+# Caché
 .cache/
 .parcel-cache/
 
 # PHP
 vendor/
 
-# XAMPP / archivos locales
+# Archivos locales de XAMPP
 xampp/
-htdocs/
 
-# Base de datos local
+# Bases de datos locales
 *.sqlite
 *.sqlite3
 
-# Archivos de configuración local
+# Configuraciones locales
 config.local.php
 
 # Backups
@@ -53,3 +52,6 @@ config.local.php
 # Archivos subidos por usuarios
 uploads/*
 !uploads/.gitkeep
+!uploads/reportes/
+uploads/reportes/*
+!uploads/reportes/.gitkeep
