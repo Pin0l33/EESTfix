@@ -16,6 +16,17 @@ CREATE TABLE usuarios (
     fecha_actualizacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
+CREATE TABLE operarios (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    telefono VARCHAR(30),
+    especialidad VARCHAR(100),
+    activo TINYINT(1) NOT NULL DEFAULT 1,
+    fecha_creacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
 CREATE TABLE categorias (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(80) NOT NULL UNIQUE,
@@ -33,8 +44,9 @@ CREATE TABLE reportes (
     titulo VARCHAR(150) NOT NULL,
     descripcion TEXT NOT NULL,
     ubicacion VARCHAR(150) NOT NULL,
-    imagen VARCHAR(255) NULL,
+    imagen VARCHAR(255),
     id_usuario INT UNSIGNED NOT NULL,
+    id_operario INT UNSIGNED,
     id_categoria INT UNSIGNED NOT NULL,
     id_estado INT UNSIGNED NOT NULL,
     fecha_creacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -43,6 +55,10 @@ CREATE TABLE reportes (
         FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
         ON UPDATE CASCADE
         ON DELETE RESTRICT,
+    CONSTRAINT fk_reportes_operario
+        FOREIGN KEY (id_operario) REFERENCES operarios(id)
+        ON UPDATE CASCADE
+        ON DELETE SET NULL,
     CONSTRAINT fk_reportes_categoria
         FOREIGN KEY (id_categoria) REFERENCES categorias(id)
         ON UPDATE CASCADE
