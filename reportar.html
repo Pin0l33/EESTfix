@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EESTfix - Reportá un problema de infraestructura en la escuela.">
+    <title>EESTfix | Reportar problema</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="container navbar-container">
+
+            <a href="index.html" class="logo">
+                EEST<span>fix</span>
+            </a>
+
+            <button class="menu-button" id="menuButton" type="button" aria-label="Abrir menú">
+                ☰
+            </button>
+
+            <nav class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Inicio</a>
+                <a href="reportar.html" class="nav-link active">Reportar</a>
+                <a href="reportes.html" class="nav-link">Reportes</a>
+                <a href="login.html" class="nav-link nav-login">Iniciar sesión</a>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <main>
+
+        <section class="report-section">
+
+            <div class="container">
+
+                <div class="section-heading">
+                    <p class="section-subtitle">EESTfix</p>
+
+                    <h1>Reportá un problema</h1>
+
+                    <p>
+                        Completá el formulario para informar un problema
+                        que hayas encontrado en la escuela.
+                    </p>
+                </div>
+
+
+                <div class="report-container">
+
+                    <form class="report-form" action="#" method="POST" enctype="multipart/form-data">
+
+                        <div class="form-group">
+
+                            <label for="titulo">
+                                Título del problema
+                            </label>
+
+                            <input
+                                type="text"
+                                id="titulo"
+                                name="titulo"
+                                placeholder="Ej: Ventana rota"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="categoria">
+                                Categoría
+                            </label>
+
+                            <select id="categoria" name="categoria" required>
+
+                                <option value="">
+                                    Seleccioná una categoría
+                                </option>
+
+                                <option value="electricidad">
+                                    Electricidad
+                                </option>
+
+                                <option value="banos">
+                                    Baños
+                                </option>
+
+                                <option value="mobiliario">
+                                    Mobiliario
+                                </option>
+
+                                <option value="informatica">
+                                    Informática
+                                </option>
+
+                                <option value="infraestructura">
+                                    Infraestructura
+                                </option>
+
+                                <option value="limpieza">
+                                    Limpieza
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="ubicacion">
+                                Ubicación
+                            </label>
+
+                            <input
+                                type="text"
+                                id="ubicacion"
+                                name="ubicacion"
+                                placeholder="Ej: Aula 15"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="descripcion">
+                                Descripción del problema
+                            </label>
+
+                            <textarea
+                                id="descripcion"
+                                name="descripcion"
+                                rows="6"
+                                placeholder="Describí qué problema encontraste..."
+                                required
+                            ></textarea>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="foto">
+                                Foto del problema
+                            </label>
+
+                            <input
+                                type="file"
+                                id="foto"
+                                name="foto"
+                                accept="image/*"
+                            >
+
+                            <small>
+                                Podés adjuntar una imagen para mostrar el problema.
+                            </small>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >
+                            Enviar reporte
+                        </button>
+
+                    </form>
+
+
+                    <div class="report-info">
+
+                        <h2>Antes de enviar</h2>
+
+                        <p>
+                            Revisá que la información ingresada sea correcta
+                            para que el problema pueda ser ubicado fácilmente.
+                        </p>
+
+                        <div class="info-item">
+```
