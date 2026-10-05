@@ -1,8 +1,8 @@
-EESTfix 🔧
+EESTfix 
 
 Sistema web para reportar, gestionar y realizar el seguimiento de problemas dentro de la institución educativa.
 
-📌 Descripción
+ Descripción
 
 EESTfix es una plataforma web desarrollada para facilitar la comunicación entre los integrantes de la institución y el personal encargado del mantenimiento.
 
@@ -12,18 +12,18 @@ Al realizar un reporte, el usuario podrá agregar una descripción, indicar la u
 
 Algunos ejemplos de problemas que podrán reportarse:
 
-- 💡 Luces que no funcionan.
-- 🚰 Problemas en baños o canillas.
-- 🪑 Bancos y sillas dañados.
-- 🚪 Puertas o ventanas rotas.
-- 💻 Computadoras o proyectores con problemas.
-- 🌡️ Problemas de calefacción o ventilación.
-- 🧹 Problemas de limpieza.
-- ⚡ Problemas eléctricos.
+-  Luces que no funcionan.
+-  Problemas en baños o canillas.
+-  Bancos y sillas dañados.
+-  Puertas o ventanas rotas.
+-  Computadoras o proyectores con problemas.
+-  Problemas de calefacción o ventilación.
+-  Problemas de limpieza.
+-  Problemas eléctricos.
 
 Cada reporte tendrá un estado que permitirá realizar un seguimiento de su resolución.
 
-🎯 Problemática
+ Problemática
 
 Actualmente, cuando un alumno o docente encuentra un problema dentro de la institución, puede resultar difícil comunicarlo de manera organizada y realizar un seguimiento de su solución.
 
@@ -31,7 +31,7 @@ Los reportes realizados mediante mensajes, avisos u otros medios pueden perderse
 
 EESTfix busca solucionar este problema mediante una plataforma única donde los problemas puedan ser registrados, consultados y gestionados.
 
-💡 Objetivos
+ Objetivos
 
 - Facilitar el reporte de problemas dentro de la institución.
 - Centralizar todos los reportes en un único sistema.
@@ -41,7 +41,7 @@ EESTfix busca solucionar este problema mediante una plataforma única donde los 
 - Facilitar la gestión de los reportes por parte de los administradores.
 - Mejorar la comunicación entre la comunidad educativa y el personal encargado.
 
-👥 Usuarios
+ Usuarios
 
 Alumno / Docente
 
@@ -69,7 +69,7 @@ Los administradores podrán:
 - Eliminar reportes.
 - Consultar estadísticas.
 
-🔄 Estados de un reporte
+ Estados de un reporte
 
 Los reportes podrán avanzar por diferentes estados:
 
@@ -87,7 +87,7 @@ Rechazado
 
 cuando un reporte no sea válido.
 
-📸 Fotografías
+ Fotografías
 
 Los usuarios podrán adjuntar fotografías al momento de crear un reporte.
 
@@ -103,7 +103,7 @@ uploads/reportes/reporte_0248.jpg
 
 Las fotografías subidas por los usuarios no serán almacenadas en el repositorio de GitHub.
 
-🗄️ Base de datos
+ Base de datos
 
 EESTfix utilizará MySQL como sistema de gestión de base de datos.
 
@@ -121,7 +121,7 @@ REP-0248
 
 Esto permitirá localizarlo fácilmente y consultar su información y estado.
 
-🔗 Relaciones principales
+ Relaciones principales
 
 Usuario
    │
@@ -139,7 +139,7 @@ Cada reporte pertenece a una categoría y tiene un estado determinado.
 
 Un reporte también puede tener varios comentarios.
 
-💻 Tecnologías
+ Tecnologías
 
 El proyecto utiliza:
 
@@ -151,7 +151,7 @@ El proyecto utiliza:
 - XAMPP — entorno de desarrollo local.
 - Git / GitHub — control de versiones.
 
-✨ Funcionalidades
+ Funcionalidades
 
 - Registro de usuarios.
 - Inicio y cierre de sesión.
@@ -169,7 +169,7 @@ El proyecto utiliza:
 - Estadísticas.
 - Animaciones e interacciones mediante JavaScript.
 
-📁 Estructura del proyecto
+ Estructura del proyecto
 
 EESTfix/
 │
@@ -230,7 +230,7 @@ EESTfix/
 ├── LICENSE
 └── README.md
 
-🚀 Instalación
+ Instalación
 
 1. Clonar el repositorio
 
@@ -265,19 +265,19 @@ backend/config/database.php
 
 y colocar los datos correspondientes a la instalación local de MySQL.
 
-🧪 Estado del proyecto
+ Estado del proyecto
 
-🚧 En desarrollo
+ En desarrollo
 
 EESTfix se encuentra actualmente en desarrollo. Las funcionalidades serán implementadas progresivamente.
 
-📄 Licencia
+ Licencia
 
 Este proyecto utiliza la licencia MIT.
 
 Consultar el archivo "LICENSE" para obtener más información.
 
-👨‍💻 Autores
+ Autores
 Lucas Delpino
 Maximo Orue
 Federico Mattia
