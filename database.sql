@@ -99,3 +99,7 @@ INSERT INTO estados (nombre) VALUES
 ('En reparación'),
 ('Solucionado'),
 ('Rechazado');
+-- Índices para acelerar listados y búsquedas frecuentes.
+CREATE INDEX idx_reportes_usuario_fecha ON reportes (id_usuario, fecha_creacion);
+CREATE INDEX idx_reportes_estado_fecha ON reportes (id_estado, fecha_creacion);
+CREATE INDEX idx_comentarios_reporte_fecha ON comentarios (id_reporte, fecha_creacion);

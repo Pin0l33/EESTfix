@@ -1,287 +1,67 @@
-EESTfix 
+# EESTfix
 
-Sistema web para reportar, gestionar y realizar el seguimiento de problemas dentro de la institución educativa.
+Sistema web para reportar, gestionar y realizar el seguimiento de problemas dentro de la E.E.S.T. N.º 1 "Eduardo Ader".
 
- Descripción
+## Tecnologías
 
-EESTfix es una plataforma web desarrollada para facilitar la comunicación entre los integrantes de la institución y el personal encargado del mantenimiento.
+- HTML5, CSS3 y JavaScript.
+- PHP 8.1 o superior.
+- MySQL 5.7+ / MariaDB compatible.
+- XAMPP para desarrollo local.
 
-Los alumnos y docentes podrán reportar problemas relacionados con la infraestructura, los espacios y los recursos de la escuela.
+## Instalación en XAMPP
 
-Al realizar un reporte, el usuario podrá agregar una descripción, indicar la ubicación del problema y adjuntar una fotografía como evidencia.
+1. Copiá la carpeta `EESTfix-main` dentro de `C:\xampp\htdocs\` (podés renombrarla a `EESTfix`).
+2. Iniciá Apache y MySQL desde el panel de XAMPP.
+3. Abrí `http://localhost/phpmyadmin`.
+4. Importá `database.sql`. Se creará la base `eestfix` y sus tablas y datos iniciales de categorías y estados.
+5. Revisá `backend/config/database.php`. La configuración predeterminada de XAMPP es host `127.0.0.1`, base `eestfix`, usuario `root` y contraseña vacía. También admite variables de entorno `DB_HOST`, `DB_NAME`, `DB_USER` y `DB_PASS`.
+6. Verificá que `uploads/reportes/` tenga permiso de escritura para Apache.
+7. Abrí `http://localhost/EESTfix/`.
 
-Algunos ejemplos de problemas que podrán reportarse:
+**Importante:** no abras los HTML con doble clic ni uses `file://`. PHP necesita ejecutarse desde Apache, por ejemplo mediante `http://localhost/EESTfix/`.
 
--  Luces que no funcionan.
--  Problemas en baños o canillas.
--  Bancos y sillas dañados.
--  Puertas o ventanas rotas.
--  Computadoras o proyectores con problemas.
--  Problemas de calefacción o ventilación.
--  Problemas de limpieza.
--  Problemas eléctricos.
+## Crear el primer administrador
 
-Cada reporte tendrá un estado que permitirá realizar un seguimiento de su resolución.
+Por seguridad, el formulario público de registro solo permite crear cuentas de alumno o docente. Primero registrá tu usuario normalmente desde `registro.html`. Después, desde phpMyAdmin, ejecutá la siguiente consulta reemplazando el correo por el que registraste:
 
- Problemática
+```sql
+UPDATE usuarios SET rol = 'administrador' WHERE email = 'tu-correo@ejemplo.com';
+```
 
-Actualmente, cuando un alumno o docente encuentra un problema dentro de la institución, puede resultar difícil comunicarlo de manera organizada y realizar un seguimiento de su solución.
+Cerrá sesión y volvé a ingresar para que se actualice el rol en la sesión.
 
-Los reportes realizados mediante mensajes, avisos u otros medios pueden perderse y no siempre existe un registro centralizado.
+## Funcionalidades incluidas
 
-EESTfix busca solucionar este problema mediante una plataforma única donde los problemas puedan ser registrados, consultados y gestionados.
+- Registro de alumnos y docentes, inicio y cierre de sesión.
+- Contraseñas almacenadas con `password_hash()` y verificadas con `password_verify()`.
+- Sesiones PHP y token CSRF en operaciones de escritura.
+- Creación de reportes con categoría, ubicación, descripción y fotografía opcional (JPG, PNG o WEBP, hasta 5 MB).
+- Código de seguimiento automático `REP-0001`.
+- Listado de reportes propios, detalle y comentarios.
+- Panel de administración con estadísticas, cambio de estado y eliminación de reportes.
+- Gestión de usuarios y roles.
+- Consultas PDO preparadas y validación de permisos en el servidor.
 
- Objetivos
+## Rutas principales
 
-- Facilitar el reporte de problemas dentro de la institución.
-- Centralizar todos los reportes en un único sistema.
-- Permitir adjuntar fotografías a los reportes.
-- Permitir consultar el estado de cada problema.
-- Mantener un historial de los problemas reportados.
-- Facilitar la gestión de los reportes por parte de los administradores.
-- Mejorar la comunicación entre la comunidad educativa y el personal encargado.
+- `index.html`: inicio y sección «Sobre nosotros».
+- `registro.html` / `login.html`: crear cuenta e ingresar.
+- `reportar.html`: crear un reporte (requiere sesión).
+- `reportes.html`: consultar los reportes propios (requiere sesión).
+- `admin/index.html`: panel administrativo.
+- `admin/reportes.html`: gestión de reportes.
+- `admin/usuarios.html`: gestión de usuarios.
 
- Usuarios
+## Notas de seguridad y despliegue
 
-Alumno / Docente
+- No publiques credenciales reales ni habilites el registro de administradores desde el formulario.
+- En producción usá HTTPS, una contraseña de base de datos robusta y configurá `DB_*` en el entorno del servidor.
+- Los archivos de `uploads/reportes/` no se versionan; el directorio incluye reglas para impedir la ejecución de scripts subidos.
+- La aplicación no incluye todavía recuperación de contraseña, verificación de correo ni notificaciones por email.
 
-Los usuarios podrán:
+## Autores
 
-- Crear reportes.
-- Agregar una descripción del problema.
-- Seleccionar una categoría.
-- Indicar la ubicación.
-- Adjuntar fotografías.
-- Consultar sus reportes.
-- Ver el estado de sus reportes.
-- Agregar comentarios o información adicional.
-
-Administrador
-
-Los administradores podrán:
-
-- Ver todos los reportes.
-- Buscar y filtrar reportes.
-- Consultar la información de cada reporte.
-- Ver las fotografías adjuntas.
-- Cambiar el estado de los reportes.
-- Gestionar usuarios.
-- Eliminar reportes.
-- Consultar estadísticas.
-
- Estados de un reporte
-
-Los reportes podrán avanzar por diferentes estados:
-
-Pendiente
-    ↓
-En revisión
-    ↓
-En reparación
-    ↓
-Solucionado
-
-También podrá utilizarse el estado:
-
-Rechazado
-
-cuando un reporte no sea válido.
-
- Fotografías
-
-Los usuarios podrán adjuntar fotografías al momento de crear un reporte.
-
-Las imágenes se almacenarán en el servidor dentro de:
-
-uploads/reportes/
-
-La base de datos no almacenará directamente las imágenes. En su lugar, almacenará la ruta correspondiente al archivo.
-
-Ejemplo:
-
-uploads/reportes/reporte_0248.jpg
-
-Las fotografías subidas por los usuarios no serán almacenadas en el repositorio de GitHub.
-
- Base de datos
-
-EESTfix utilizará MySQL como sistema de gestión de base de datos.
-
-Entre las principales entidades se encuentran:
-
-- Usuarios
-- Reportes
-- Categorías
-- Estados
-- Comentarios
-
-Un reporte tendrá un identificador único, por ejemplo:
-
-REP-0248
-
-Esto permitirá localizarlo fácilmente y consultar su información y estado.
-
- Relaciones principales
-
-Usuario
-   │
-   └──────< Reporte
-                │
-                ├────── Categoría
-                │
-                ├────── Estado
-                │
-                └──────< Comentario
-
-Un usuario puede crear varios reportes.
-
-Cada reporte pertenece a una categoría y tiene un estado determinado.
-
-Un reporte también puede tener varios comentarios.
-
- Tecnologías
-
-El proyecto utiliza:
-
-- HTML5 — estructura de las páginas.
-- CSS3 — diseño y estilos.
-- JavaScript — funcionalidades, interacciones y animaciones.
-- PHP — lógica del servidor y comunicación con MySQL.
-- MySQL — almacenamiento y gestión de los datos.
-- XAMPP — entorno de desarrollo local.
-- Git / GitHub — control de versiones.
-
- Funcionalidades
-
-- Registro de usuarios.
-- Inicio y cierre de sesión.
-- Creación de reportes.
-- Selección de categorías.
-- Indicación de ubicación.
-- Carga de fotografías.
-- Visualización de reportes.
-- Seguimiento mediante código.
-- Estados de los reportes.
-- Sistema de comentarios.
-- Búsqueda y filtros.
-- Panel de administración.
-- Gestión de usuarios.
-- Estadísticas.
-- Animaciones e interacciones mediante JavaScript.
-
- Estructura del proyecto
-
-EESTfix/
-│
-├── index.html
-├── reportar.html
-├── reportes.html
-├── mis-reportes.html
-├── login.html
-├── registro.html
-├── perfil.html
-│
-├── admin/
-│   ├── index.html
-│   ├── reportes.html
-│   └── usuarios.html
-│
-├── css/
-│   ├── style.css
-│   ├── auth.css
-│   └── admin.css
-│
-├── js/
-│   ├── main.js
-│   ├── animaciones.js
-│   ├── reportes.js
-│   └── auth.js
-│
-├── img/
-│   ├── logo.png
-│   └── icons/
-│
-├── uploads/
-│   └── reportes/
-│
-├── backend/
-│   ├── config/
-│   │   └── database.php
-│   │
-│   ├── auth/
-│   │   ├── login.php
-│   │   ├── registro.php
-│   │   └── logout.php
-│   │
-│   ├── reportes/
-│   │   ├── crear.php
-│   │   ├── listar.php
-│   │   ├── obtener.php
-│   │   ├── actualizar.php
-│   │   └── eliminar.php
-│   │
-│   └── usuarios/
-│       ├── obtener.php
-│       ├── actualizar.php
-│       └── eliminar.php
-│
-├── database.sql
-├── .gitignore
-├── LICENSE
-└── README.md
-
- Instalación
-
-1. Clonar el repositorio
-
-git clone https://github.com/USUARIO/EESTfix.git
-
-2. Colocar el proyecto en XAMPP
-
-Copiar la carpeta "EESTfix" dentro de:
-
-C:\xampp\htdocs\
-
-3. Iniciar XAMPP
-
-Activar los servicios:
-
-Apache
-MySQL
-
-4. Crear la base de datos
-
-Abrir phpMyAdmin y ejecutar el archivo:
-
-database.sql
-
-Este archivo contiene las instrucciones necesarias para crear la base de datos y sus tablas.
-
-5. Configurar la conexión
-
-Editar:
-
-backend/config/database.php
-
-y colocar los datos correspondientes a la instalación local de MySQL.
-
- Estado del proyecto
-
- En desarrollo
-
-EESTfix se encuentra actualmente en desarrollo. Las funcionalidades serán implementadas progresivamente.
-
- Licencia
-
-Este proyecto utiliza la licencia MIT.
-
-Consultar el archivo "LICENSE" para obtener más información.
-
- Autores
-Lucas Delpino
-Maximo Orue
-Federico Mattia
-Ulises Ferrari
-Leonel De Armas
+Lucas Delpino, Maximo Orue, Federico Mattia, Ulises Ferrari y Leonel De Armas.
 
 Proyecto desarrollado para la E.E.S.T. N.º 1 "Eduardo Ader".

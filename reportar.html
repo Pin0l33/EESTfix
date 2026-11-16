@@ -54,7 +54,7 @@
 
                 <div class="report-container">
 
-                    <form class="report-form" action="#" method="POST" enctype="multipart/form-data">
+                    <form class="report-form" id="reportForm" enctype="multipart/form-data">
 
                         <div class="form-group">
 
@@ -85,27 +85,27 @@
                                     Seleccioná una categoría
                                 </option>
 
-                                <option value="electricidad">
+                                <option value="Electricidad">
                                     Electricidad
                                 </option>
 
-                                <option value="banos">
+                                <option value="Baños">
                                     Baños
                                 </option>
 
-                                <option value="mobiliario">
+                                <option value="Mobiliario">
                                     Mobiliario
                                 </option>
 
-                                <option value="informatica">
+                                <option value="Informática">
                                     Informática
                                 </option>
 
-                                <option value="infraestructura">
+                                <option value="Infraestructura">
                                     Infraestructura
                                 </option>
 
-                                <option value="limpieza">
+                                <option value="Limpieza">
                                     Limpieza
                                 </option>
 
@@ -187,5 +187,17 @@
                             para que el problema pueda ser ubicado fácilmente.
                         </p>
 
-                        <div class="info-item">
-```
+                        <div class="info-item"><h3>Información clara</h3><p>Describí el problema y su ubicación con el mayor detalle posible.</p></div>
+                        <div class="info-item"><h3>Una foto ayuda</h3><p>Si podés, adjuntá una imagen que permita identificar el inconveniente.</p></div>
+                        <p id="formMessage" role="status"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="footer"><div class="container"><p>© <span id="currentYear"></span> EESTfix — E.E.S.T. N.º 1 "Eduardo Ader"</p></div></footer>
+    <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/reportes.js"></script>
+</body>
+</html>

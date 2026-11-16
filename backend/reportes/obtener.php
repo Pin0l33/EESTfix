@@ -1,0 +1,4 @@
+<?php
+require_once __DIR__ . '/../config/database.php';$u=require_login();$id=(int)($_GET['id']??0);if(!$id)json_response(['ok'=>false,'message'=>'Reporte inválido.'],422);
+$q=db()->prepare('SELECT r.*,e.nombre AS estado,c.nombre AS categoria,u.nombre AS autor,u.apellido AS apellido FROM reportes r JOIN estados e ON e.id=r.id_estado JOIN categorias c ON c.id=r.id_categoria JOIN usuarios u ON u.id=r.id_usuario WHERE r.id=?');$q->execute([$id]);$r=$q->fetch();if(!$r)json_response(['ok'=>false,'message'=>'No se encontró el reporte.'],404);if($u['rol']!=='administrador'&&(int)$r['id_usuario']!==(int)$u['id'])json_response(['ok'=>false,'message'=>'No tenés permiso para ver este reporte.'],403);
+$q=db()->prepare('SELECT c.id,c.comentario,c.fecha_creacion,u.nombre,u.apellido FROM comentarios c JOIN usuarios u ON u.id=c.id_usuario WHERE c.id_reporte=? ORDER BY c.fecha_creacion');$q->execute([$id]);$r['comentarios']=$q->fetchAll();json_response(['ok'=>true,'reporte'=>$r]);
