@@ -1,9 +1,43 @@
+// Cliente Supabase para GitHub Pages (sin PHP).
 const API = {
-  csrf: '', user: null,
-  prefix: location.pathname.includes('/admin/') ? '../' : '',
-  async init() { const d=await this.request('backend/auth/estado.php');this.csrf=d.csrf||'';this.user=d.user||null;return d; },
-  async request(url, options={}) { if(!/^https?:/i.test(url) && !url.startsWith('../') && !url.startsWith('/')) url=this.prefix+url; const headers={...(options.headers||{})}; if(this.csrf) headers['X-CSRF-Token']=this.csrf; if(options.body && !(options.body instanceof FormData) && typeof options.body!=='string'){headers['Content-Type']='application/json';options.body=JSON.stringify(options.body);} const r=await fetch(url,{credentials:'same-origin',...options,headers});let d;try{d=await r.json();}catch{throw new Error('El servidor devolvió una respuesta inválida.');}if(d.csrf)this.csrf=d.csrf;if(!r.ok||d.ok===false)throw new Error(d.message||'Ocurrió un error.');return d; },
-  escape(value=''){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));},
-  message(el,text,error=false){if(!el)return;el.textContent=text;el.className='form-message '+(error?'error':'success');}
+  client: null, user: null, profile: null,
+  async init() {
+    if (!window.supabase || !window.EESTFIX_SUPABASE_URL ||
+        window.EESTFIX_SUPABASE_URL.includes('PEGAR_') ||
+        !window.EESTFIX_SUPABASE_ANON_KEY ||
+        window.EESTFIX_SUPABASE_ANON_KEY.includes('PEGAR_')) {
+      throw new Error('Falta configurar Supabase. Revisá js/supabase-config.js.');
+    }
+    this.client = window.supabase.createClient(
+      window.EESTFIX_SUPABASE_URL, window.EESTFIX_SUPABASE_ANON_KEY
+    );
+    const { data: { session }, error } = await this.client.auth.getSession();
+    if (error) throw error;
+    this.user = session?.user || null;
+    if (this.user) {
+      const { data, error: profileError } = await this.client
+        .from('perfiles').select('*').eq('id', this.user.id).maybeSingle();
+      if (profileError) throw profileError;
+      this.profile = data;
+    } else this.profile = null;
+    document.querySelectorAll('[data-user-name]').forEach(el => {
+      el.textContent = this.profile ? `${this.profile.nombre} ${this.profile.apellido}` : 'Invitado';
+    });
+    return this;
+  },
+  requireUser() {
+    if (!this.user) { location.href = 'login.html'; return false; }
+    return true;
+  },
+  escape(value='') {
+    return String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  },
+  message(el, text, error=false) {
+    if (!el) return;
+    el.textContent = text;
+    el.className = 'form-message ' + (error ? 'error' : 'success');
+  }
 };
-document.addEventListener('DOMContentLoaded',()=>API.init().then(()=>{document.querySelectorAll('[data-user-name]').forEach(e=>e.textContent=API.user?`${API.user.nombre} ${API.user.apellido}`:'Invitado');}).catch(()=>{}));
+document.addEventListener('DOMContentLoaded', () => {
+  API.init().catch(err => console.error('EESTfix:', err.message));
+});

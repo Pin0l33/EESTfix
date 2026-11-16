@@ -1,67 +1,43 @@
 # EESTfix
 
-Sistema web para reportar, gestionar y realizar el seguimiento de problemas dentro de la E.E.S.T. N.º 1 "Eduardo Ader".
+Frontend estático de EESTfix preparado para GitHub Pages y Supabase.
 
-## Tecnologías
+## Arquitectura para publicar
 
-- HTML5, CSS3 y JavaScript.
-- PHP 8.1 o superior.
-- MySQL 5.7+ / MariaDB compatible.
-- XAMPP para desarrollo local.
+- GitHub Pages sirve HTML, CSS y JavaScript.
+- Supabase provee autenticación, PostgreSQL y Storage.
+- Los archivos PHP de `backend/` son para la versión PHP/MySQL local/hosting tradicional; **GitHub Pages no ejecuta PHP** y esos endpoints no se usan en esta modalidad.
 
-## Instalación en XAMPP
+## Configuración de Supabase
 
-1. Copiá la carpeta `EESTfix-main` dentro de `C:\xampp\htdocs\` (podés renombrarla a `EESTfix`).
-2. Iniciá Apache y MySQL desde el panel de XAMPP.
-3. Abrí `http://localhost/phpmyadmin`.
-4. Importá `database.sql`. Se creará la base `eestfix` y sus tablas y datos iniciales de categorías y estados.
-5. Revisá `backend/config/database.php`. La configuración predeterminada de XAMPP es host `127.0.0.1`, base `eestfix`, usuario `root` y contraseña vacía. También admite variables de entorno `DB_HOST`, `DB_NAME`, `DB_USER` y `DB_PASS`.
-6. Verificá que `uploads/reportes/` tenga permiso de escritura para Apache.
-7. Abrí `http://localhost/EESTfix/`.
+1. En `js/supabase-config.js`, reemplazá `PEGAR_URL_DEL_PROYECTO` por Project URL y `PEGAR_CLAVE_PUBLISHABLE_O_ANON` por la clave publishable (o anon legacy) de Supabase. La clave pública es visible en el navegador; nunca uses `service_role` ni la contraseña de la base.
+2. En Supabase > SQL Editor ejecutá primero `database` migrado/las tablas y políticas que se prepararon en el asistente.
+3. Ejecutá también `supabase-storage.sql` para crear el bucket público `reportes` y sus políticas de carga/lectura.
+4. En Authentication > URL Configuration configurá Site URL con `https://TU-USUARIO.github.io/EESTfix/` y agregá esa misma dirección a Redirect URLs.
+5. En Authentication > Providers verificá Email. Para pruebas podés mantener confirmación de correo habilitada; el usuario deberá confirmar el email antes de iniciar sesión.
 
-**Importante:** no abras los HTML con doble clic ni uses `file://`. PHP necesita ejecutarse desde Apache, por ejemplo mediante `http://localhost/EESTfix/`.
+## Publicar en GitHub Pages
 
-## Crear el primer administrador
+1. Subí el contenido de esta carpeta al repositorio público `EESTfix` (los archivos deben quedar en la raíz del repositorio, no dentro de otra carpeta).
+2. En GitHub > Settings > Pages seleccioná Deploy from a branch, branch `main` y carpeta `/ (root)`.
+3. Guardá y esperá la URL `https://TU-USUARIO.github.io/EESTfix/`.
 
-Por seguridad, el formulario público de registro solo permite crear cuentas de alumno o docente. Primero registrá tu usuario normalmente desde `registro.html`. Después, desde phpMyAdmin, ejecutá la siguiente consulta reemplazando el correo por el que registraste:
+## Funcionalidad frontend migrada
 
-```sql
-UPDATE usuarios SET rol = 'administrador' WHERE email = 'tu-correo@ejemplo.com';
-```
+- Registro e inicio de sesión con Supabase Auth.
+- Perfil creado automáticamente por el trigger SQL.
+- Creación de reportes con categoría, ubicación, descripción y foto.
+- Listado de reportes propios y detalle.
+- Comentarios en reportes propios.
+- Seguridad de tablas mediante RLS.
 
-Cerrá sesión y volvé a ingresar para que se actualice el rol en la sesión.
+## Pendiente de migración
 
-## Funcionalidades incluidas
+Las pantallas administrativas (`admin/`) todavía contienen llamadas a endpoints PHP/MySQL y no funcionan en GitHub Pages. La administración de estados, usuarios y estadísticas debe migrarse a consultas Supabase y funciones RLS antes de usar el sitio en producción. El alta de administradores debe hacerse manualmente desde SQL Editor, nunca desde el formulario público.
 
-- Registro de alumnos y docentes, inicio y cierre de sesión.
-- Contraseñas almacenadas con `password_hash()` y verificadas con `password_verify()`.
-- Sesiones PHP y token CSRF en operaciones de escritura.
-- Creación de reportes con categoría, ubicación, descripción y fotografía opcional (JPG, PNG o WEBP, hasta 5 MB).
-- Código de seguimiento automático `REP-0001`.
-- Listado de reportes propios, detalle y comentarios.
-- Panel de administración con estadísticas, cambio de estado y eliminación de reportes.
-- Gestión de usuarios y roles.
-- Consultas PDO preparadas y validación de permisos en el servidor.
+## Seguridad y pruebas
 
-## Rutas principales
-
-- `index.html`: inicio y sección «Sobre nosotros».
-- `registro.html` / `login.html`: crear cuenta e ingresar.
-- `reportar.html`: crear un reporte (requiere sesión).
-- `reportes.html`: consultar los reportes propios (requiere sesión).
-- `admin/index.html`: panel administrativo.
-- `admin/reportes.html`: gestión de reportes.
-- `admin/usuarios.html`: gestión de usuarios.
-
-## Notas de seguridad y despliegue
-
-- No publiques credenciales reales ni habilites el registro de administradores desde el formulario.
-- En producción usá HTTPS, una contraseña de base de datos robusta y configurá `DB_*` en el entorno del servidor.
-- Los archivos de `uploads/reportes/` no se versionan; el directorio incluye reglas para impedir la ejecución de scripts subidos.
-- La aplicación no incluye todavía recuperación de contraseña, verificación de correo ni notificaciones por email.
-
-## Autores
-
-Lucas Delpino, Maximo Orue, Federico Mattia, Ulises Ferrari y Leonel De Armas.
-
-Proyecto desarrollado para la E.E.S.T. N.º 1 "Eduardo Ader".
+- No publiques claves `service_role`, contraseñas ni secretos.
+- La clave publishable/anon sí está diseñada para frontend, siempre con RLS correctamente configurado.
+- Probá registro, confirmación de email, login, creación de reporte y comentarios con cuentas de prueba.
+- El bucket de imágenes queda público para que las fotos se puedan mostrar mediante URL pública. No subas fotos sensibles.
